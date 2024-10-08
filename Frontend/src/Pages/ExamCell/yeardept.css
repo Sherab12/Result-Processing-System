@@ -1,0 +1,74 @@
+.yeardeptContainer {
+  display: flex;
+  justify-content: center;
+  flex-direction: row;
+}
+.yeardeptContainer_main {
+  display: flex;
+}
+.yeardeptContainer_left {
+  width: 400px;
+  /* border: 4px solid red; */
+  margin: 20px;
+  background-color: #f9f9f9;
+}
+
+.yeardeptContainer_right {
+  width: 780px;
+  /* border: 4px solid red; */
+  margin: 20px 0;
+  background-color: #f9f9f9;
+}
+.outermoduleContainer {
+  /* border: 4px solid black; */
+  background-color: #f9f9f9;
+}
+.deptinfo {
+  display: flex;
+  justify-content: space-between;
+  padding: 0 10px;
+  background-color: #3385ff;
+  color: #fff;
+  font-weight: bolder;
+}
+
+.moduleContainer {
+  padding: 10px;
+  background-color: #f9f9f994;
+}
+.moduleinfo {
+  margin: 5px;
+  background-color: rgb(218, 168, 168);
+  cursor: pointer;
+  color: black;
+  display: flex;
+  align-items: center;
+}
+.moduleinfo > .blue {
+  background-color: #3385ff;
+  width: 50px;
+  height: 50px;
+}
+.modnameCode {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 0 10px;
+}
+.moduleinfo > .modname,
+.modCode {
+  padding: 10px;
+}
+
+.viewResultButton {
+  margin: 5px;
+  width: 100%;
+  height: 40px;
+  font-weight: bolder;
+  background-color: #3385ff;
+  color: #fff;
+  outline: none;
+  border: none;
+  cursor: pointer;
+}

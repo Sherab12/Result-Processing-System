@@ -1,0 +1,54 @@
+/* Apply styles to the outer table */
+table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 20px 0;
+}
+
+/* Apply styles to the table headers */
+th {
+  background-color: #f2f2f2;
+  font-weight: bold;
+  text-align: left;
+  padding: 8px;
+}
+
+/* Apply styles to the table cells */
+td {
+  padding: 8px;
+}
+
+/* Apply alternating row background color */
+tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+/* Style the first and second columns (Name and Student ID) */
+td:nth-child(1),
+td:nth-child(2) {
+  font-weight: bold;
+}
+
+/* Style the Module Code column */
+td:nth-child(3) {
+  font-weight: bold;
+}
+
+/* Apply specific styles to the Module Code, CA, Practical, and Exam columns */
+td:nth-child(4),
+td:nth-child(5),
+td:nth-child(6),
+td:nth-child(7) {
+  text-align: center;
+}
+
+/* Add border to the table, table headers, and cells */
+table,
+th,
+td {
+  border: 1px solid #ddd;
+}
+
+/* Apply padding to the outer table div {
+  padding: 20px;
+} */
