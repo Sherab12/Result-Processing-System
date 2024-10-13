@@ -55,24 +55,24 @@ function Uploadedfile({ data, isLoading, year, moduleC, department, user }) {
                 {data.map((student, index) => (
                   <tr key={index}>
                     <td className="px-3 py-2 whitespace-nowrap text-xs font-medium text-black">
-                      {student.sid}
+                      {student.Sid}
                     </td>
                     <td className="px-3 py-2 whitespace-nowrap text-xs font-medium text-black">
                       {student.name}
                     </td>
                     <td className="px-3 py-2 whitespace-nowrap text-xs font-medium text-black">
-                      {student.ca}
+                      {student.CA}
                     </td>
                     {hasPracticalMarks && (
                       <td className="px-3 py-2 whitespace-nowrap text-xs font-medium text-black">
-                        {student.practical !== null ? student.practical : "-"}
+                        {student.Practical !== null ? student.Practical : "-"}
                       </td>
                     )}
                     <td className="px-3 py-2 whitespace-nowrap text-xs font-medium text-black">
-                      {student.exam}
+                      {student.Exam}
                     </td>
                     <td className="px-3 py-2 whitespace-nowrap text-xs font-medium text-black">
-                      {student.total}
+                      {student.Total}
                     </td>
                   </tr>
                 ))}

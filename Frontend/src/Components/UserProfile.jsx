@@ -15,7 +15,6 @@ const UserProfile = () => {
   const dispatch = useDispatch();
 
   const logoutOfApp = () => {
-    console.log("ej");
     dispatch(logout());
     alert("logout");
     localStorage.removeItem("user");
@@ -25,7 +24,9 @@ const UserProfile = () => {
   return (
     <div className="nav-item absolute right-1 top-16 bg-white dark:bg-[#42464D] p-8 rounded-lg w-96">
       <div className="flex justify-between items-center">
-        <p className="font-semibold text-lg dark:text-gray-200">User Profile</p>
+        <p className="font-semibold text-lg dark:text-gray-200 rounded-full">
+          User Profile
+        </p>
         <Button
           icon={<MdOutlineCancel />}
           color="rgb(153, 171, 180)"
@@ -42,15 +43,15 @@ const UserProfile = () => {
         <div>
           <p className="font-semibold text-xl dark:text-gray-200">
             {" "}
-            {/* {user.name}{" "} */}Lobzang
+            {user.name}{" "}
           </p>
           <p className="text-gray-500 text-sm dark:text-gray-400">
             {" "}
-            {/* {user.role}{" "} */}nfe
+            {user.role.charAt(0).toUpperCase() + user.role.slice(1)}
           </p>
           <p className="text-gray-500 text-sm font-semibold dark:text-gray-400">
             {" "}
-            {/* {user.email}{" "} */}jfe
+            {user.email}{" "}
           </p>
         </div>
       </div>

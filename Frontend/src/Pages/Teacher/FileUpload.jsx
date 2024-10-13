@@ -6,9 +6,9 @@ import { useSelector } from "react-redux";
 import { selectUser } from "../../features/userSlice";
 import * as XLSX from "xlsx";
 import excel from "./images.jpeg";
-// import Uploadedfile from "./Uploadedfile";
+import Uploadedfile from "./Uploadedfile";
 
-function FileUpload({ moduleC, year, department }) {
+function FileUpload({ moduleC, year, moduleN }) {
   const [data, setData] = useState([]);
   const [isConfirmDialogOpen, setIsConfirmDialogOpen] = useState(false);
   const [selectedFile, setSelectedFile] = useState(null);
@@ -16,6 +16,13 @@ function FileUpload({ moduleC, year, department }) {
   const [isDataInserted, setisDataInserted] = useState(false);
 
   const user = useSelector(selectUser);
+
+  useEffect(() => {
+    setSelectedFile(null);
+    setFileImage(null);
+    setData([]);
+    setDataIModule([]);
+  }, [moduleC]);
 
   const handleFileChange = (e) => {
     const file = e.target.files[0];
@@ -91,55 +98,100 @@ function FileUpload({ moduleC, year, department }) {
     setIsConfirmDialogOpen(false);
   };
 
-  // const confirm = async () => {
-  //   setIsConfirmDialogOpen(false);
+  const confirm = async () => {
+    setIsConfirmDialogOpen(false);
 
-  //   const dataWithModuleAndClass = data.map((student) => ({
-  //     ...student,
-  //     code: moduleC,
-  //     tid: user.uid,
-  //     dateOfExam: "2023-11-22",
-  //     semester: "AS2023",
-  //     ID: `0${String(student.ID)}`, // Ensure ID is treated as a string
-  //   }));
+    const dataWithModuleAndClass = data.map((student) => ({
+      ...student,
+      code: moduleC,
+      tid: user.uid,
+      dateOfExam: "2023-11-22",
+      semester: "AS2023",
+      ID: `0${String(student.ID)}`, // Ensure ID is treated as a string
+    }));
 
-  //   console.log(dataWithModuleAndClass);
+    console.log(dataWithModuleAndClass);
 
-  //   try {
-  //     const url = "https://resultsystemdb.000webhostapp.com/addMark.php";
+    try {
+      const url =
+        "http://localhost:8080/Result-processing-system/Backend/api/addMark.php";
 
-  //     const response = await fetch(url, {
-  //       method: "POST",
-  //       headers: {
-  //         "Content-Type": "application/x-www-form-urlencoded",
-  //       },
-  //       body: new URLSearchParams({
-  //         dataWithModuleAndClass: JSON.stringify(dataWithModuleAndClass),
-  //       }),
-  //     });
+      const response = await fetch(url, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          dataWithModuleAndClass: dataWithModuleAndClass,
+        }),
+      });
 
-  //     if (response.ok) {
-  //       // const result = await response.text();
-  //       // console.log(result);
-  //       setClick(!click);
-  //       sendNoti(dataWithModuleAndClass[0].tid,dataWithModuleAndClass[0].code,dataWithModuleAndClass[0].semester);
-  //       alert("Data inserted successfully!");
-  //     } else {
-  //       console.error("Error inserting data:", response.statusText);
-  //       alert("Failed to insert data. Please check the console for details.");
-  //     }
-  //   } catch (error) {
-  //     console.error("Error inserting data:", error);
-  //     alert("Failed to insert data. Please check the console for details.");
-  //   }
-  // };
+      // Read the response as text first
+      const textResponse = await response.text();
 
-  // const sendNoti = async(userID, module, semester) => {
+      if (response.ok) {
+        // const result = await response.text();
+        // console.log(result);
+        setClick(!click);
+        // sendNoti(
+        //   dataWithModuleAndClass[0].tid,
+        //   dataWithModuleAndClass[0].code,
+        //   dataWithModuleAndClass[0].semester
+        // );
+        alert("Data inserted successfully!");
+      } else {
+        console.error("Error inserting data:", response.statusText);
+        alert("Failed to insert data. Please check the console for details.");
+      }
+
+      // Now try to parse it as JSON
+      const jsonResponse = JSON.parse(textResponse);
+      console.log("Response from server:", jsonResponse);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+
+    // try {
+    //   const url =
+    //     "http://localhost:8080/Result-processing-system/Backend/api/addMark.php";
+
+    //   const response = await fetch(url, {
+    //     method: "POST",
+    //     headers: {
+    //       "Content-Type": "application/json",
+    //     },
+    //     body: JSON.stringify({
+    //       dataWithModuleAndClass: dataWithModuleAndClass,
+    //     }),
+    //   });
+    //   console.log(response);
+
+    //   // if (response.ok) {
+    //   //   // const result = await response.text();
+    //   //   // console.log(result);
+    //   //   setClick(!click);
+    //   //   sendNoti(
+    //   //     dataWithModuleAndClass[0].tid,
+    //   //     dataWithModuleAndClass[0].code,
+    //   //     dataWithModuleAndClass[0].semester
+    //   //   );
+    //   //   alert("Data inserted successfully!");
+    //   // } else {
+    //   //   console.error("Error inserting data:", response.statusText);
+    //   //   alert("Failed to insert data. Please check the console for details.");
+    //   // }
+    // } catch (error) {
+    //   console.error("Error inserting data:", error);
+    //   alert("Failed to insert data. Please check the console for details.");
+    // }
+  };
+
+  // const sendNoti = async (userID, module, semester) => {
   //   try {
   //     const notificationData = {
   //       tid: userID,
   //       mid: module,
-  //       semester: semester
+  //       semester: semester,
   //     };
 
   //     const url = `https://resultsystemdb.000webhostapp.com/notiTutor.php?tid=${notificationData.tid}&mid=${notificationData.mid}&semester=${notificationData.semester}`;
@@ -150,10 +202,10 @@ function FileUpload({ moduleC, year, department }) {
   //       const successMsg = await response.text();
   //       console.log(successMsg); // Log success message if request is successful
   //     } else {
-  //       console.error('Data Already exists', response.statusText);
+  //       console.error("Data Already exists", response.statusText);
   //     }
   //   } catch (error) {
-  //     console.error('Error:', error);
+  //     console.error("Error:", error);
   //   }
   // };
 
@@ -186,12 +238,49 @@ function FileUpload({ moduleC, year, department }) {
   const [isConfirmDialogOpenDelete, setIsConfirmDialogOpenDelete] =
     useState(false);
 
-  // const fetchDelete = async () => {
-  //   try {
-  //     const url = `https://resultsystemdb.000webhostapp.com/Tutor/deleteMark.php?code=${moduleC}`;
+  const fetchDelete = async () => {
+    try {
+      const url = `http://localhost:8080/Result-processing-system/Backend/api/deleteMark.php`;
+
+      const response = await fetch(url, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+        body: new URLSearchParams({
+          code: moduleC, // Ensure this variable is correctly set before this function is called
+        }),
+      });
+
+      // Check if the response is OK
+      if (!response.ok) {
+        const errorText = await response.text(); // Get the error response text
+        console.error("Error response:", errorText); // Log the error response
+        throw new Error(
+          `HTTP error! status: ${response.status} - ${errorText}`
+        );
+      }
+
+      const data = await response.json(); // Parse the response data as JSON
+      console.log(data); // Log response data
+
+      if (data.status === "success") {
+        alert(data.message);
+        setFileImage(null);
+        setDataIModule([]);
+        setSelectedFile(null);
+      } else {
+        alert(data.message); // Handle error message
+      }
+    } catch (error) {
+      console.error("Error fetching data:", error);
+      alert("An unexpected error occurred: " + error.message); // Show the actual error message
+    }
+  };
 
   //     // Move the fetch logic outside of useEffect
   //     const response = await fetch(url);
+  //     console.log(response);
   //     if (response.ok) {
   //       setFileImage(null);
   //       setDataIModule([]);
@@ -217,7 +306,7 @@ function FileUpload({ moduleC, year, department }) {
     try {
       // Move the useEffect outside of the confirmDelete function
       fetchDelete();
-      deleteNoti();
+      // deleteNoti();
     } catch (error) {
       console.error("Error deleting data to the server:", error);
       alert("NO");
@@ -228,30 +317,51 @@ function FileUpload({ moduleC, year, department }) {
 
   const [dataIModule, setDataIModule] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  // const apiUrl = `https://resultsystemdb.000webhostapp.com/getUndeclaredMark.php?tid=${user.uid}&code=${moduleC}`;
+  const apiUrl =
+    "http://localhost:8080/Result-processing-system/Backend/api/getUndeclaredMark.php";
   const [click, setClick] = useState(true);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch(apiUrl);
+        const response = await fetch(apiUrl, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+          },
+          body: new URLSearchParams({
+            tid: user.uid, // replace with your dynamic value
+            code: moduleC, // replace with your dynamic value
+          }),
+        });
 
+        // Check if response is OK and if response is in JSON format
         if (response.ok) {
           const result = await response.json();
-          setDataIModule(result);
+          console.log("Fetched data:", result);
+          if (result.message) {
+            console.log(result.message); // Log if no undeclared marks found
+          } else {
+            setDataIModule(result); // Set state if marks were found
+          }
         } else {
-          console.error("Error fetching data:", response.statusText);
+          // If response is not ok, throw an error
+          const errorMessage = await response.text(); // Read error response
+          console.error(
+            "Error fetching data:",
+            response.statusText,
+            errorMessage
+          );
         }
-
-        setIsLoading(false);
       } catch (error) {
         console.error("Error fetching data:", error);
+      } finally {
         setIsLoading(false);
       }
     };
 
     fetchData();
-  }, [moduleC, click]);
+  }, [click, moduleC]);
 
   return (
     <div>
@@ -260,7 +370,7 @@ function FileUpload({ moduleC, year, department }) {
       </header>
       <main>
         <div
-          className="file-upload border border-dashed border-gray-500 p-4 relative"
+          className="file-upload border border-dashed border-gray-500 p-4 relative "
           onDragOver={handleDragOver}
           onDrop={handleDrop}
         >
@@ -334,23 +444,23 @@ function FileUpload({ moduleC, year, department }) {
           </div>
         )}
 
-        {/* <Uploadedfile
+        <Uploadedfile
           data={dataIModule}
           isLoading={isLoading}
           year={year}
           moduleC={moduleC}
-          department={department}
-        /> */}
-        {/* {dataIModule.length !== 0 && (
+          moduleN={moduleN}
+        />
+        {dataIModule.length !== 0 && (
           <button
             className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
             onClick={onDelete}
           >
             Delete
           </button>
-        )} */}
+        )}
 
-        {/* <PopupDialog
+        <PopupDialog
           isOpen={isConfirmDialogOpen}
           onClose={cancelInsert}
           onYesClick={confirm}
@@ -363,7 +473,7 @@ function FileUpload({ moduleC, year, department }) {
           onYesClick={confirmDelete}
           title="Confirm Delete"
           content="Are you sure you want to delete?"
-        /> */}
+        />
       </main>
     </div>
   );

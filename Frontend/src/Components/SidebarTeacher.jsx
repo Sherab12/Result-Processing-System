@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, NavLink } from "react-router-dom";
 import { SiShopware } from "react-icons/si";
 import { MdOutlineCancel } from "react-icons/md";
@@ -13,6 +13,8 @@ import {
   BsMenuButtonWideFill,
   BsFillGearFill,
 } from "react-icons/bs";
+import { useSelector } from "react-redux";
+import { selectUser } from "../features/userSlice";
 
 const SidebarTeacher = ({ handleDeptSelection }) => {
   const { activeMenu, setActiveMenu, screenSize, currentColor } =
@@ -62,6 +64,37 @@ const SidebarTeacher = ({ handleDeptSelection }) => {
       setActiveDept(null);
     }
   };
+
+  const user = useSelector(selectUser);
+
+  const [modules, setModules] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [tid, setTID] = useState(user.uid);
+
+  // Fetch the data from the PHP backend
+  useEffect(() => {
+    const fetchModules = async () => {
+      try {
+        const response = await fetch(
+          `http://localhost:8080/Result-processing-system/Backend/api/module_taught.php?TID=${tid}`
+        );
+        const data = await response.json();
+        setModules(data); // Save the fetched data into state
+        setLoading(false);
+      } catch (error) {
+        console.error("Error fetching the modules:", error);
+        setLoading(false);
+      }
+    };
+
+    fetchModules();
+  }, [tid]); // Refetch whenever TID changes
+
+  // Loading state
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+  console.log(modules);
   return (
     <div className="ml-3 h-screen md:overflow-hidden overflow-auto md:hover:overflow-auto pb-10">
       {activeMenu && (
@@ -99,55 +132,40 @@ const SidebarTeacher = ({ handleDeptSelection }) => {
             </NavLink>
 
             <p className="text-gray-400 dark:text-gray-400 m-3 mt-4 uppercase">
-              Academic Year
+              Module Taught
             </p>
-            {/* <Link to="/dashboard">
-              <p className="text-gray-400 dark:text-gray-400 m-3 mt-4 uppercase">
-                <BsGrid1X2Fill className="icon" /> Dashboard
-              </p>
-            </Link> */}
 
-            {academicYears.map((yearData, index) => (
-              <div key={index}>
-                <a
-                  onClick={() => {
-                    setSemester((index + 1) * 2);
-                    handleYearClick(yearData.year);
-                  }}
-                  className={normalLink}
-                >
-                  <BsPeopleFill className="icon" /> {yearData.year}
-                </a>
-                {activeYear === yearData.year && (
-                  <ul>
-                    {yearData.departments.map((department, deptIndex) => (
-                      <Link to={`/department/${department}`}>
-                        <li
-                          style={{
-                            backgroundColor:
-                              activeDept === department ? currentColor : "",
-                          }}
-                          className={
-                            activeYear === department ? activeLink : normalLink
-                          }
-                          key={deptIndex}
-                          onClick={() => {
-                            handleDeptSelection(
-                              department,
-                              activeYear,
-                              semester
-                            );
-                            setActiveDept(department);
-                          }}
-                        >
-                          {department}
-                        </li>
-                      </Link>
-                    ))}
-                  </ul>
-                )}
-              </div>
-            ))}
+            <div>
+              {modules.map((module) => (
+                <div>
+                  <Link to={`/Module/${module.ModuleCode}`}>
+                    <li
+                      style={{
+                        backgroundColor:
+                          activeDept === module.ModuleCode ? currentColor : "",
+                        color: activeDept === module.ModuleCode ? "white" : "",
+                      }}
+                      className={
+                        activeYear === module.ModuleCode
+                          ? activeLink
+                          : normalLink
+                      }
+                      // key={deptIndex}
+                      onClick={() => {
+                        handleDeptSelection(
+                          module.ModuleCode,
+                          module.ModuleName,
+                          module.Year
+                        );
+                        setActiveDept(module.ModuleCode);
+                      }}
+                    >
+                      <p>{module.ModuleName}</p>
+                    </li>
+                  </Link>
+                </div>
+              ))}
+            </div>
           </div>
         </>
       )}

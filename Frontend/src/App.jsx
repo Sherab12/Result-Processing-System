@@ -39,8 +39,9 @@ const App = () => {
   return (
     <div className={currentMode === "Dark" ? "dark" : ""}>
       {/* <ExamcellHome user={user} /> */}
-      <TeacherHome user={user} />
-      {/* {!user ? (
+      {/* <TeacherHome user={user} /> */}
+      {/* <Login /> */}
+      {!user ? (
         <Routes>
           <Route path="/login" element={<Login />} />
           <Route path="*" element={<Navigate to="/login" />} />
@@ -52,7 +53,7 @@ const App = () => {
           {user.role == "student" && <StudentHome user={user} />}
           {user.role == "Error" && <Login />}
         </>
-      )} */}
+      )}
     </div>
   );
 };

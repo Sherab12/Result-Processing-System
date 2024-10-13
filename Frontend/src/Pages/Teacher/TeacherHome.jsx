@@ -25,15 +25,16 @@ function TeacherHome() {
     themeSettings,
     setThemeSettings,
   } = useStateContext();
-  const [selectedDept, setSelectedDept] = React.useState(null);
-  const [selectedyear, setSelectedYear] = React.useState(null);
-  const [semester, setSemester] = React.useState(null);
+  const [selectedModuleCode, setSelectedModuleCode] = React.useState(null);
+  const [selectedModuleName, setSelectedModuleName] = React.useState(null);
+  const [Year, setYear] = React.useState(null);
 
-  const handleDeptSelection = (deptName, deptIndex, sem) => {
-    setSelectedDept(deptName);
-    setSelectedYear(deptIndex);
-    setSemester(sem);
+  const handleDeptSelection = (ModuleCode, ModuleName, year) => {
+    setSelectedModuleCode(ModuleCode);
+    setSelectedModuleName(ModuleName);
+    setYear(year);
   };
+
   return (
     <div>
       <div className="flex relative dark:bg-main-dark-bg">
@@ -73,15 +74,15 @@ function TeacherHome() {
             <Routes>
               {/* dashboard  */}
               <Route exact path="/dashboard" element={<Home />} />
-              {selectedDept && (
+              {selectedModuleCode && (
                 <Route
                   exact
-                  path={`/department/${selectedDept}`}
+                  path={`/Module/${selectedModuleCode}`}
                   element={
                     <ModuleTaught
-                      department={selectedDept}
-                      year={selectedyear}
-                      semester={semester}
+                      modulecode={selectedModuleCode}
+                      ModuleName={selectedModuleName}
+                      Year={Year}
                     />
                   }
                 />
@@ -91,9 +92,9 @@ function TeacherHome() {
                 path="/resultView"
                 element={
                   <ResultView
-                    department={selectedDept}
-                    year={selectedyear}
-                    semester={semester}
+                  // department={selectedModuleCode}
+                  // year={selectedyear}
+                  // semester={selectedModuleName}
                   />
                 }
               /> */}

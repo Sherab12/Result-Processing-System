@@ -1,4 +1,3 @@
-// logIn.jsx
 import React, { useState, useEffect } from "react";
 import "./logreg.css";
 import { login } from "../../features/userSlice";
@@ -6,13 +5,15 @@ import { useDispatch } from "react-redux";
 
 function LogIn() {
   const dispatch = useDispatch();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState(null);
 
   const handleLogin = async () => {
     try {
-      const email = document.getElementById("em").value;
-      const password = document.getElementById("pw").value;
+      const url =
+        "http://localhost:8080/Result-processing-system/Backend/api/login.php";
 
-      const url = "https://resultsystemdb.000webhostapp.com/login.php";
       const data = {
         Email: email,
         Password: password,
@@ -28,7 +29,8 @@ function LogIn() {
 
       if (response.ok) {
         const responseData = await response.json();
-        if (responseData["role"] !== "Error") {
+
+        if (responseData["role"] && responseData["role"] !== "Error") {
           dispatch(
             login({
               email: responseData["email"],
@@ -37,6 +39,7 @@ function LogIn() {
               name: responseData["Name"],
             })
           );
+
           localStorage.setItem(
             "user",
             JSON.stringify({
@@ -46,20 +49,24 @@ function LogIn() {
               name: responseData["Name"],
             })
           );
-          alert("Login");
+
+          alert("Login successful!");
+          setError(null); // Reset error state if login is successful
         } else {
           alert("Email or password is incorrect");
         }
       } else {
-        console.error("Error during login:", response.statusText);
+        const errMessage = await response.text();
+        setError(`Error during login: ${errMessage}`);
+        console.error(`Error during login: ${response.statusText}`);
       }
     } catch (error) {
+      setError(`Error during login: ${error.message}`);
       console.error("Error during login:", error.message);
     }
   };
 
   useEffect(() => {
-    // Check if user is logged in on page load
     const storedUser = localStorage.getItem("user");
     if (storedUser) {
       const user = JSON.parse(storedUser);
@@ -72,13 +79,24 @@ function LogIn() {
       <div className="wrapper">
         <div className="form-box login">
           <h2>Login</h2>
+          {error && <p style={{ color: "red" }}>{error}</p>}
           <div>
             <div className="input-box">
-              <input type="email" id="em" required />
+              <input
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+              />
               <label>Email</label>
             </div>
             <div className="input-box">
-              <input type="password" id="pw" required />
+              <input
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+              />
               <label>Password</label>
             </div>
             <div className="remember-forgot">
