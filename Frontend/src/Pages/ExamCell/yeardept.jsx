@@ -47,8 +47,11 @@ function YearDept({ department, year, semester }) {
     },
     "Fourth Year": {
       "Information Technology": [
-        "Introduction to Programming",
-        "Calculus and Infinite Series",
+        "Management Information Systems",
+        "Artificial Intelligence (Elective II)",
+        "Optimization Techniques",
+        "Financial Management and Accounts",
+        "Professional Practices in IT",
       ],
       "Electrical Engineering": ["Module3", "Module4"],
       "Electronics & Communication Engineering": ["Module3", "Module4"],
@@ -97,7 +100,13 @@ function YearDept({ department, year, semester }) {
       "Instrumentation and Control Engineering": ["Module3", "Module4"],
     },
     "Fourth Year": {
-      "Information Technology": ["CPL101", "MAT101"],
+      "Information Technology": [
+        "DIS404",
+        "CTE411",
+        "MAT412",
+        "ITM403",
+        "ITM404",
+      ],
       "Electrical Engineering": ["Module3", "Module4"],
       "Electronics & Communication Engineering": ["Module3", "Module4"],
       "Civil Engineering": ["Module3", "Module4"],
@@ -113,8 +122,9 @@ function YearDept({ department, year, semester }) {
   const [selectedModule, setSelectedModule] = useState(null);
   const [activeModules, setActiveModules] = useState(Array(10).fill(false)); // Assuming a maximum of 10 modules
 
-  const modules = moduleData[year] && moduleData[year][department];
-  const moduleCodes = moduleCodeData[year] && moduleCodeData[year][department];
+  const modules = moduleData[department] && moduleData[department][year];
+  const moduleCodes =
+    moduleCodeData[department] && moduleCodeData[department][year];
 
   const handleModuleClick = (module, moduleCode, index) => {
     setSelectedModule({ module, moduleCode, year, department, semester });

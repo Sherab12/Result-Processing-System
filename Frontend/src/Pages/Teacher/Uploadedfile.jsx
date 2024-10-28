@@ -7,7 +7,7 @@ import PopupDialog from "../../Components/PopupDialog";
 function Uploadedfile({ data, isLoading, year, moduleC, department, user }) {
   const tableRef = useRef(null);
   const hasPracticalMarks =
-    data.length > 0 && data.some((student) => student.practical !== null);
+    data.length > 0 && data.some((student) => student.Practical !== null);
 
   return (
     <div>
@@ -72,7 +72,7 @@ function Uploadedfile({ data, isLoading, year, moduleC, department, user }) {
                       {student.Exam}
                     </td>
                     <td className="px-3 py-2 whitespace-nowrap text-xs font-medium text-black">
-                      {student.Total}
+                      {student.total}
                     </td>
                   </tr>
                 ))}
@@ -80,7 +80,7 @@ function Uploadedfile({ data, isLoading, year, moduleC, department, user }) {
             </table>
             <div className="flex items-center">
               <DownloadTableExcel
-                filename={`${year}_${department}_${moduleC}`}
+                filename={`${moduleC}_Year_${year}`}
                 sheet="users"
                 currentTableRef={tableRef.current}
               >

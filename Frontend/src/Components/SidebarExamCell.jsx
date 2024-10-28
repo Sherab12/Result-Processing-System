@@ -26,62 +26,44 @@ const SidebarExamCell = ({ handleDeptSelection }) => {
   };
 
   const activeLink =
-    "flex items-center gap-5 pl-4 pt-3 pb-2.5 rounded-lg text-white  text-md m-2";
+    "flex items-center gap-5 pl-4 pt-3 pb-2.5 rounded-lg text-white text-md m-2";
   const normalLink =
-    "flex items-center gap-5 pl-4 pt-3 pb-2.5 rounded-lg text-md text-gray-700 dark:text-gray-200 dark:hover:text-black hover:bg-light-gray m-2";
+    "flex items-center gap-5 pl-2 pt-3 pb-2.5 rounded-lg text-md text-gray-700 dark:text-gray-200 dark:hover:text-black hover:bg-light-gray m-2";
 
   const [academicYears, setAcademicYears] = useState([
     {
-      year: "First Year",
+      year: "Architecture Department",
       departments: [
-        "Architecture Department",
-        "Civil Engineering",
-        "Electronics & Communication Engineering",
-        "Electrical Engineering",
-        "Information Technology",
-        "Engineering Geology",
-        "Instrumentation and Control Engineering",
+        "First Year",
+        "Second Year",
+        "Third Year",
+        "Fourth Year",
+        "Fifth Year",
       ],
     },
     {
-      year: "Second Year",
-      departments: [
-        "Architecture Department",
-        "Civil Engineering",
-        "Electronics & Communication Engineering",
-        "Electrical Engineering",
-        "Information Technology",
-        "Engineering Geology",
-        "Instrumentation and Control Engineering",
-      ],
+      year: "Civil Engineering",
+      departments: ["First Year", "Second Year", "Third Year", "Fourth Year"],
     },
     {
-      year: "Third Year",
-      departments: [
-        "Architecture Department",
-        "Civil Engineering",
-        "Electronics & Communication Engineering",
-        "Electrical Engineering",
-        "Information Technology",
-        "Engineering Geology",
-        "Instrumentation and Control Engineering",
-      ],
+      year: "Electronics & Communication",
+      departments: ["First Year", "Second Year", "Third Year", "Fourth Year"],
     },
     {
-      year: "Fourth Year",
-      departments: [
-        "Architecture Department",
-        "Civil Engineering",
-        "Electronics & Communication Engineering",
-        "Electrical Engineering",
-        "Information Technology",
-        "Engineering Geology",
-        "Instrumentation and Control Engineering",
-      ],
+      year: "Electrical Engineering",
+      departments: ["First Year", "Second Year", "Third Year", "Fourth Year"],
     },
     {
-      year: "Fifth Year",
-      departments: ["Architecture Department"],
+      year: "Information Technology",
+      departments: ["First Year", "Second Year", "Third Year", "Fourth Year"],
+    },
+    {
+      year: "Engineering Geology",
+      departments: ["First Year", "Second Year", "Third Year", "Fourth Year"],
+    },
+    {
+      year: "Instrumentation and Control",
+      departments: ["First Year", "Second Year", "Third Year", "Fourth Year"],
     },
   ]);
   const [activeYear, setActiveYear] = useState(null);
@@ -135,7 +117,7 @@ const SidebarExamCell = ({ handleDeptSelection }) => {
             </NavLink>
 
             <p className="text-gray-400 dark:text-gray-400 m-3 mt-4 uppercase">
-              Academic Year
+              Department
             </p>
             {/* <Link to="/dashboard">
               <p className="text-gray-400 dark:text-gray-400 m-3 mt-4 uppercase">
@@ -162,6 +144,7 @@ const SidebarExamCell = ({ handleDeptSelection }) => {
                           style={{
                             backgroundColor:
                               activeDept === department ? currentColor : "",
+                            color: activeDept === department ? "white" : "",
                           }}
                           className={
                             activeYear === department ? activeLink : normalLink

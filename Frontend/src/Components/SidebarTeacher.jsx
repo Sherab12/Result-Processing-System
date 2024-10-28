@@ -138,7 +138,10 @@ const SidebarTeacher = ({ handleDeptSelection }) => {
             <div>
               {modules.map((module) => (
                 <div>
-                  <Link to={`/Module/${module.ModuleCode}`}>
+                  <Link
+                    to={`/Module/${module.ModuleCode}`}
+                    key={module.ModuleCode}
+                  >
                     <li
                       style={{
                         backgroundColor:

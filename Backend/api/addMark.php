@@ -19,7 +19,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     if (isset($data['dataWithModuleAndClass']) && is_array($data['dataWithModuleAndClass'])) {
         // Prepare and bind the SQL statement
-        $stmt = $conn->prepare("INSERT INTO student_marks (Sid, name, CA, Exam, Practical, Mcode, tid, dateOfExam, semester) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
+        $stmt = $conn->prepare("INSERT INTO student_marks (Sid, name, CA, Exam, Practical, Mcode, tid, dateOfExam, semester, total) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
 
         foreach ($data['dataWithModuleAndClass'] as $student) {
             $ID = $student['ID'];
@@ -32,6 +32,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $semester = $student['semester'];
             $tid = $student['tid'];
 
+            // Calculate total as the sum of CA, Exam, and Practical
+            $total = $CA + $Exam + $Practical;
+
             // Use parameterized queries to prevent SQL injection
             $stmt->bindParam(1, $ID);
             $stmt->bindParam(2, $name);
@@ -42,6 +45,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $stmt->bindParam(7, $tid);
             $stmt->bindParam(8, $dateOfExam);
             $stmt->bindParam(9, $semester);
+            $stmt->bindParam(10, $total); // Bind the total value
 
             if (!$stmt->execute()) {
                 // Send error message as JSON

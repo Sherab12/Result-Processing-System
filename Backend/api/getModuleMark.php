@@ -9,20 +9,19 @@ include_once 'db.php';
 $db = new Database();
 $conn = $db->getConnection();
 
-// Check if tid and code parameters are provided in the POST request
-if (isset($_POST['tid']) && isset($_POST['code'])) {
-    $tid = $_POST['tid'];  // Teacher ID
+// Check if code parameter is provided in the POST request
+if (isset($_POST['code'])) {
     $code = $_POST['code'];  // Module Code
 
     // Prepare the SQL statement
-    $sql = "SELECT Sid, name, CA, Exam, Practical, Mcode, dateOfExam, semester,total
+    $sql = "SELECT Sid, name, CA, Exam, Practical, Mcode, dateOfExam, semester, total
             FROM student_marks
-            WHERE tid = ? AND Mcode = ?";  // Assuming undeclared marks have NULL Exam field
+            WHERE Mcode = ?";  // Filter by Module Code
 
     $stmt = $conn->prepare($sql);
     
     // Execute the statement
-    $stmt->execute([$tid, $code]);
+    $stmt->execute([$code]);
 
     // Fetch data and return it as JSON
     $marks = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -30,7 +29,7 @@ if (isset($_POST['tid']) && isset($_POST['code'])) {
     // Log the fetched marks for debugging
     error_log("Fetched marks: " . print_r($marks, true)); // Log fetched data
 
-    // Check if any undeclared marks were found
+    // Check if any marks were found
     if (count($marks) > 0) {
         echo json_encode($marks);
     } else {
