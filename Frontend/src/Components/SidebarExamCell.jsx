@@ -3,14 +3,20 @@ import { Link, NavLink } from "react-router-dom";
 import { SiShopware } from "react-icons/si";
 import { MdOutlineCancel } from "react-icons/md";
 import { TooltipComponent } from "@syncfusion/ej2-react-popups";
+
+import { links } from "../Data/dummy";
 import { useStateContext } from "../Contexts/ContextProvider";
 import {
+  BsCart3,
   BsGrid1X2Fill,
   BsPeopleFill,
+  BsMenuButtonWideFill,
+  BsFillGearFill,
 } from "react-icons/bs";
 
 const SidebarExamCell = ({ handleDeptSelection }) => {
-  const { activeMenu, setActiveMenu, screenSize, currentColor } = useStateContext();
+  const { activeMenu, setActiveMenu, screenSize, currentColor } =
+    useStateContext();
 
   const handleCloseSidebar = () => {
     if (activeMenu && screenSize <= 900) {
@@ -20,87 +26,60 @@ const SidebarExamCell = ({ handleDeptSelection }) => {
   };
 
   const activeLink =
-    "flex items-center gap-5 pl-4 pt-3 pb-2.5 rounded-lg text-white  text-md m-2";
+    "flex items-center gap-5 pl-4 pt-3 pb-2.5 rounded-lg text-white text-md m-2";
   const normalLink =
-    "flex items-center gap-5 pl-4 pt-3 pb-2.5 rounded-lg text-md text-gray-700 dark:text-gray-200 dark:hover:text-black hover:bg-light-gray m-2";
+    "flex items-center gap-5 pl-2 pt-3 pb-2.5 rounded-lg text-md text-gray-700 dark:text-gray-200 dark:hover:text-black hover:bg-light-gray m-2";
 
-  const [departmentsData, setDepartmentsData] = useState([
+  const [academicYears, setAcademicYears] = useState([
     {
-      year: "First Year",
+      year: "Architecture Department",
       departments: [
-        "Architecture Department",
-        "Civil Engineering",
-        "Electronics & Communication Engineering",
-        "Electrical Engineering",
-        "Information Technology",
-        "Engineering Geology",
-        "Instrumentation and Control Engineering",
+        "First Year",
+        "Second Year",
+        "Third Year",
+        "Fourth Year",
+        "Fifth Year",
       ],
     },
     {
-      year: "Second Year",
-      departments: [
-        "Architecture Department",
-        "Civil Engineering",
-        "Electronics & Communication Engineering",
-        "Electrical Engineering",
-        "Information Technology",
-        "Engineering Geology",
-        "Instrumentation and Control Engineering",
-      ],
+      year: "Civil Engineering",
+      departments: ["First Year", "Second Year", "Third Year", "Fourth Year"],
     },
     {
-      year: "Third Year",
-      departments: [
-        "Architecture Department",
-        "Civil Engineering",
-        "Electronics & Communication Engineering",
-        "Electrical Engineering",
-        "Information Technology",
-        "Engineering Geology",
-        "Instrumentation and Control Engineering",
-      ],
+      year: "Electronics & Communication",
+      departments: ["First Year", "Second Year", "Third Year", "Fourth Year"],
     },
     {
-      year: "Fourth Year",
-      departments: [
-        "Architecture Department",
-        "Civil Engineering",
-        "Electronics & Communication Engineering",
-        "Electrical Engineering",
-        "Information Technology",
-        "Engineering Geology",
-        "Instrumentation and Control Engineering",
-      ],
+      year: "Electrical Engineering",
+      departments: ["First Year", "Second Year", "Third Year", "Fourth Year"],
     },
     {
-      year: "Fifth Year",
-      departments: ["Architecture Department"],
+      year: "Information Technology",
+      departments: ["First Year", "Second Year", "Third Year", "Fourth Year"],
+    },
+    {
+      year: "Engineering Geology",
+      departments: ["First Year", "Second Year", "Third Year", "Fourth Year"],
+    },
+    {
+      year: "Instrumentation and Control",
+      departments: ["First Year", "Second Year", "Third Year", "Fourth Year"],
     },
   ]);
-
-  const [activeDept, setActiveDept] = useState(null);
   const [activeYear, setActiveYear] = useState(null);
+  const [activeDept, setActiveDept] = useState(null);
   const [semester, setSemester] = useState(null);
-
-  const handleDeptClick = (department) => {
-    if (activeDept === department) {
-      setActiveDept(null); // Close department if already active
-      setActiveYear(null); // Reset year selection
-    } else {
-      setActiveDept(department);
-      setActiveYear(null); // Reset year selection when a new department is opened
-    }
-  };
 
   const handleYearClick = (year) => {
     if (activeYear === year) {
-      setActiveYear(null); // Close year if already active
+      // If the year is already active, clicking again should close it
+      setActiveYear(null);
+      setActiveDept(null); // Close active department if year is closed
     } else {
       setActiveYear(year);
+      setActiveDept(null);
     }
   };
-
   return (
     <div className="ml-3 h-screen md:overflow-hidden overflow-auto md:hover:overflow-auto pb-10">
       {activeMenu && (
@@ -138,18 +117,26 @@ const SidebarExamCell = ({ handleDeptSelection }) => {
             </NavLink>
 
             <p className="text-gray-400 dark:text-gray-400 m-3 mt-4 uppercase">
-              Academic Year
+              Department
             </p>
+            {/* <Link to="/dashboard">
+              <p className="text-gray-400 dark:text-gray-400 m-3 mt-4 uppercase">
+                <BsGrid1X2Fill className="icon" /> Dashboard
+              </p>
+            </Link> */}
 
-            {departmentsData.map((departmentData, deptIndex) => (
-              <div key={deptIndex}>
+            {academicYears.map((yearData, index) => (
+              <div key={index}>
                 <a
-                  onClick={() => handleDeptClick(departmentData.name)}
+                  onClick={() => {
+                    setSemester((index + 1) * 2);
+                    handleYearClick(yearData.year);
+                  }}
                   className={normalLink}
                 >
-                  <BsPeopleFill className="icon" /> {departmentData.name}
+                  <BsPeopleFill className="icon" /> {yearData.year}
                 </a>
-                {activeDept === departmentData.name && (
+                {activeYear === yearData.year && (
                   <ul>
                     {yearData.departments.map((department, deptIndex) => (
                       <Link to={`/department/${department}`}>
@@ -157,6 +144,7 @@ const SidebarExamCell = ({ handleDeptSelection }) => {
                           style={{
                             backgroundColor:
                               activeDept === department ? currentColor : "",
+                            color: activeDept === department ? "white" : "",
                           }}
                           className={
                             activeYear === department ? activeLink : normalLink
@@ -187,5 +175,3 @@ const SidebarExamCell = ({ handleDeptSelection }) => {
 };
 
 export default SidebarExamCell;
-
-
