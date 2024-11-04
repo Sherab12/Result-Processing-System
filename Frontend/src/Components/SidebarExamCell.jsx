@@ -125,48 +125,41 @@ const SidebarExamCell = ({ handleDeptSelection }) => {
               </p>
             </Link> */}
 
-            {academicYears.map((yearData, index) => (
-              <div key={index}>
-                <a
-                  onClick={() => {
-                    setSemester((index + 1) * 2);
-                    handleYearClick(yearData.year);
-                  }}
-                  className={normalLink}
-                >
-                  <BsPeopleFill className="icon" /> {yearData.year}
-                </a>
-                {activeYear === yearData.year && (
-                  <ul>
-                    {yearData.departments.map((department, deptIndex) => (
-                      <Link to={`/department/${department}`}>
-                        <li
-                          style={{
-                            backgroundColor:
-                              activeDept === department ? currentColor : "",
-                            color: activeDept === department ? "white" : "",
-                          }}
-                          className={
-                            activeYear === department ? activeLink : normalLink
-                          }
-                          key={deptIndex}
-                          onClick={() => {
-                            handleDeptSelection(
-                              department,
-                              activeYear,
-                              semester
-                            );
-                            setActiveDept(department);
-                          }}
-                        >
-                          {department}
-                        </li>
-                      </Link>
-                    ))}
-                  </ul>
-                )}
-              </div>
-            ))}
+              {academicYears.map((yearData) => (
+                <div key={yearData.year}> {/* Use year name as key */}
+                  <a
+                    onClick={() => {
+                      setSemester((academicYears.indexOf(yearData) + 1) * 2);
+                      handleYearClick(yearData.year);
+                    }}
+                    className={normalLink}
+                  >
+                    <BsPeopleFill className="icon" /> {yearData.year}
+                  </a>
+                  {activeYear === yearData.year && (
+                    <ul>
+                      {yearData.departments.map((department) => (
+                        <Link key={department} to={`/department/${department}`}> {/* Use department name as key */}
+                          <li
+                            style={{
+                              backgroundColor: activeDept === department ? currentColor : "",
+                              color: activeDept === department ? "white" : "",
+                            }}
+                            className={activeYear === department ? activeLink : normalLink}
+                            onClick={() => {
+                              handleDeptSelection(department, activeYear, semester);
+                              setActiveDept(department);
+                            }}
+                          >
+                            {department}
+                          </li>
+                        </Link>
+                      ))}
+                    </ul>
+                  )}
+                </div>
+              ))}
+
           </div>
         </>
       )}
