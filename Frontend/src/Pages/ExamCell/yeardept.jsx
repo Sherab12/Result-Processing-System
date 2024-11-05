@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./yeardept.css";
 import ModuleResult from "./ModuleResult.jsx";
 import ResultView from "./resultView.jsx";
@@ -135,11 +135,11 @@ function YearDept({ department, year, semester }) {
     setSelectedModule({ module, year, department });
   };
 
-  // useEffect(() => {
-  //   // Reset selected module and active modules when the year changes
-  //   setSelectedModule(null);
-  //   setActiveModules(Array(10).fill(false));
-  // }, [year]);
+  useEffect(() => {
+    // Reset the selected module and active modules when the year changes
+    setSelectedModule(null);
+    setActiveModules(Array(10).fill(false));
+  }, [year, department, semester]); // Trigger when any of these props change
 
   return (
     <div className="md:flex md:flex-row h-screen">

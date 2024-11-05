@@ -8,8 +8,10 @@ function ModuleResult({ moduleC, year, department }) {
   const [data, setData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isEditing, setIsEditing] = useState(false);
-  const apiUrl = 'http://localhost:8080/Result-processing-system/Backend/api/getModuleMark.php';
-  const updateUrl = 'http://localhost:8080/Result-processing-system/Backend/api/updateModuleMark.php';
+  const apiUrl =
+    "http://localhost:8080/Result-processing-system/Backend/api/getModuleMark.php";
+  const updateUrl =
+    "http://localhost:8080/Result-processing-system/Backend/api/updateModuleMark.php";
 
   const moduleTutorMapping = {
     DIS404: { tutorName: "Kezang Dema", tutorID: "RUB201001001" },
@@ -88,13 +90,21 @@ function ModuleResult({ moduleC, year, department }) {
     <div>
       <div className="m-4">
         {isLoading ? (
-          <Loader bgColor="black" color="white" title={"spinner-cub"} size={100} />
+          <Loader
+            bgColor="black"
+            color="white"
+            title={"spinner-cub"}
+            size={100}
+          />
         ) : data.length > 0 ? (
           <>
             <p>{`Taught By ${tutorInfo.tutorName}`}</p>
             <p>{`Tutor ID: ${tutorInfo.tutorID}`}</p>
 
-            <table ref={tableRef} className="dark:bg-white min-w-full divide-y divide-gray-200">
+            <table
+              ref={tableRef}
+              className="dark:bg-white min-w-full divide-y divide-gray-200"
+            >
               <thead>
                 <tr>
                   <th>Student No.</th>
@@ -117,7 +127,10 @@ function ModuleResult({ moduleC, year, department }) {
                         type="number"
                         value={student.CA}
                         disabled={!isEditing}
-                        onChange={(e) => handleInputChange(index, "CA", e.target.value)}
+                        onChange={(e) =>
+                          handleInputChange(index, "CA", e.target.value)
+                        }
+                        style={{ padding: 0, margin: 0, width: "40px" }}
                       />
                     </td>
                     {hasPracticalMarks && (
@@ -126,7 +139,14 @@ function ModuleResult({ moduleC, year, department }) {
                           type="number"
                           value={student.Practical || ""}
                           disabled={!isEditing}
-                          onChange={(e) => handleInputChange(index, "Practical", e.target.value)}
+                          onChange={(e) =>
+                            handleInputChange(
+                              index,
+                              "Practical",
+                              e.target.value
+                            )
+                          }
+                          style={{ padding: 0, margin: 0, width: "60px" }}
                         />
                       </td>
                     )}
@@ -135,7 +155,10 @@ function ModuleResult({ moduleC, year, department }) {
                         type="number"
                         value={student.Exam}
                         disabled={!isEditing}
-                        onChange={(e) => handleInputChange(index, "Exam", e.target.value)}
+                        onChange={(e) =>
+                          handleInputChange(index, "Exam", e.target.value)
+                        }
+                        style={{ padding: 0, margin: 0, width: "40px" }}
                       />
                     </td>
                     <td>{student.total}</td>
@@ -165,9 +188,15 @@ function ModuleResult({ moduleC, year, department }) {
           </>
         ) : (
           <div className="flex flex-col items-center justify-center h-full">
-            <img src={Pending} alt="pending" className="mb-4 w-24 h-24 object-contain" />
+            <img
+              src={Pending}
+              alt="pending"
+              className="mb-4 w-24 h-24 object-contain"
+            />
             <p className="text-lg font-semibold mb-2">Marks Pending...</p>
-            <button className="bg-blue-500 text-white py-2 px-4 rounded">Send Reminder</button>
+            <button className="bg-blue-500 text-white py-2 px-4 rounded">
+              Send Reminder
+            </button>
           </div>
         )}
       </div>
