@@ -11,6 +11,7 @@ const dummyResults = {
         Mcode: "DZG101",
         CA: 25,
         Exam: 50,
+        Practical: 15,
         total: 90,
       },
       {
@@ -25,7 +26,6 @@ const dummyResults = {
         Mcode: "PHY101",
         CA: 40,
         Exam: 55,
-        Practical: 15,
         total: 95,
       },
       { name: "Academic Skills", Mcode: "ASC101", CA: 28, Exam: 50, total: 78 },
@@ -250,14 +250,6 @@ function Resultpage({ Year }) {
   const user = useSelector(selectUser);
 
   useEffect(() => {
-    // Scroll to top when the year changes
-    window.scrollTo(0, 0);
-
-    setLoading(true);
-    setError(null);
-    setResultsSemOne([]);
-    setResultsSemTwo([]);
-
     if (Year === "Fourth Year") {
       const fetchData = async () => {
         try {
@@ -266,7 +258,7 @@ function Resultpage({ Year }) {
           );
           const data = await response.json();
           setResultsSemOne(data);
-          setResultsSemTwo([]); // Clear second semester if no data exists for it
+          //   setResultsSemTwo(data.filter((result) => result.semester === "2"));
         } catch (err) {
           setError("Failed to fetch data");
         } finally {
@@ -275,6 +267,7 @@ function Resultpage({ Year }) {
       };
       fetchData();
     } else {
+      // Set dummy results based on Year for both semesters
       const yearResults = dummyResults[Year];
       if (yearResults) {
         setResultsSemOne(yearResults.semOne || []);
@@ -312,16 +305,12 @@ function Resultpage({ Year }) {
         aggregate={aggregateSemOne}
       />
 
-      {resultsSemTwo.length > 0 && (
-        <>
-          <h2>Semester: 2</h2>
-          <ResultTable
-            results={resultsSemTwo}
-            grandTotal={grandTotalSemTwo}
-            aggregate={aggregateSemTwo}
-          />
-        </>
-      )}
+      <h2>Semester: 2</h2>
+      <ResultTable
+        results={resultsSemTwo}
+        grandTotal={grandTotalSemTwo}
+        aggregate={aggregateSemTwo}
+      />
 
       <style jsx>{`
         .result-page {
@@ -354,20 +343,6 @@ function Resultpage({ Year }) {
 }
 
 function ResultTable({ results, grandTotal, aggregate, year }) {
-  if (results.length === 0) {
-    return (
-      <div
-        style={{
-          textAlign: "center",
-          padding: "20px",
-          fontSize: "18px",
-          color: "#555",
-        }}
-      >
-        No results available yet.
-      </div>
-    );
-  }
   return (
     <table className="result-table">
       <thead>
@@ -386,56 +361,46 @@ function ResultTable({ results, grandTotal, aggregate, year }) {
         </tr>
       </thead>
       <tbody>
-        {results.length === 0 ? (
-          <tr>
-            <td colSpan="11" style={{ textAlign: "center", padding: "20px" }}>
-              No result yet
-            </td>
-          </tr>
-        ) : (
-          results.map((module, index) => {
-            const moduleName =
-              year === "Fourth Year"
-                ? moduleNames[module.Mcode] || module.Mcode
-                : module.name;
+        {results.map((module, index) => {
+          const moduleName =
+            year === "Fourth Year"
+              ? moduleNames[module.Mcode] || module.Mcode
+              : module.name;
 
-            return (
-              <React.Fragment key={index}>
+          return (
+            <React.Fragment key={index}>
+              <tr>
+                <td rowSpan={module.Practical ? 3 : 2}>{moduleName}</td>
+                <td rowSpan={module.Practical ? 3 : 2}>{module.Mcode}</td>
+                <td rowSpan={module.Practical ? 3 : 2}>12</td>
+                <td>CA</td>
+                <td>{module.Practical ? "35" : "50"}</td>
+                <td>{module.CA}</td>
+                <td>{module.CA >= 20 ? "Pass" : "Fail"}</td>
+                <td rowSpan={module.Practical ? 3 : 2}>{module.total}</td>
+                <td rowSpan={module.Practical ? 3 : 2}>{module.total * 12}</td>
+                <td rowSpan={module.Practical ? 3 : 2}>1200</td>
+                <td rowSpan={module.Practical ? 3 : 2}>
+                  {module.total >= 50 ? "Pass" : "Fail"}
+                </td>
+              </tr>
+              {module.Practical && (
                 <tr>
-                  <td rowSpan={module.Practical ? 3 : 2}>{moduleName}</td>
-                  <td rowSpan={module.Practical ? 3 : 2}>{module.Mcode}</td>
-                  <td rowSpan={module.Practical ? 3 : 2}>12</td>
-                  <td>CA</td>
-                  <td>{module.Practical ? "35" : "50"}</td>
-                  <td>{module.CA}</td>
-                  <td>{module.CA >= 20 ? "Pass" : "Fail"}</td>
-                  <td rowSpan={module.Practical ? 3 : 2}>{module.total}</td>
-                  <td rowSpan={module.Practical ? 3 : 2}>
-                    {module.total * 12}
-                  </td>
-                  <td rowSpan={module.Practical ? 3 : 2}>1200</td>
-                  <td rowSpan={module.Practical ? 3 : 2}>
-                    {module.total >= 50 ? "Pass" : "Fail"}
-                  </td>
+                  <td>Practical</td>
+                  <td>25</td>
+                  <td>{module.Practical}</td>
+                  <td>{module.Practical >= 8 ? "Pass" : "Fail"}</td>
                 </tr>
-                {module.Practical && (
-                  <tr>
-                    <td>Practical</td>
-                    <td>25</td>
-                    <td>{module.Practical}</td>
-                    <td>{module.Practical >= 8 ? "Pass" : "Fail"}</td>
-                  </tr>
-                )}
-                <tr>
-                  <td>Exam</td>
-                  <td>{module.Practical ? "40" : "50"}</td>
-                  <td>{module.Exam}</td>
-                  <td>{module.Exam >= 20 ? "Pass" : "Fail"}</td>
-                </tr>
-              </React.Fragment>
-            );
-          })
-        )}
+              )}
+              <tr>
+                <td>Exam</td>
+                <td>{module.Practical ? "40" : "50"}</td>
+                <td>{module.Exam}</td>
+                <td>{module.Exam >= 20 ? "Pass" : "Fail"}</td>
+              </tr>
+            </React.Fragment>
+          );
+        })}
       </tbody>
       <tfoot>
         <tr>
