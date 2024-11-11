@@ -23,17 +23,17 @@ const dummyResults = {
       {
         name: "Engineering Physics-I",
         Mcode: "PHY101",
-        CA: 40,
-        Exam: 55,
+        CA: 25,
+        Exam: 29,
         Practical: 15,
         total: 95,
       },
-      { name: "Academic Skills", Mcode: "ASC101", CA: 28, Exam: 50, total: 78 },
+      { name: "Academic Skills", Mcode: "ASC101", CA: 28, Exam: 41, total: 78 },
       {
         name: "Introduction to Programming",
         Mcode: "CPL101",
         CA: 30,
-        Exam: 65,
+        Exam: 25,
         Practical: 20,
         total: 115,
       },
@@ -266,6 +266,7 @@ function Resultpage({ Year }) {
           );
           const data = await response.json();
           setResultsSemOne(data);
+          console.log(data);
           setResultsSemTwo([]); // Clear second semester if no data exists for it
         } catch (err) {
           setError("Failed to fetch data");
@@ -288,6 +289,9 @@ function Resultpage({ Year }) {
   if (error) return <div>{error}</div>;
 
   const calculateTotals = (results) => {
+    if (results.length === 0) {
+      return { grandTotal: 0, maxTotal: 6000, aggregate: 0 };
+    }
     const grandTotal = results.reduce(
       (acc, module) => acc + module.total * 12,
       0

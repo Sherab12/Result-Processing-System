@@ -18,7 +18,7 @@ $stdno = $_GET['stdno'];
 $query = "
     SELECT 
         Sid, name, CA, Exam, Practical, Mcode, tid, dateOfExam, semester, total
-    FROM student_marks
+    FROM declare_marks
     WHERE Sid = :stdno
 ";
 
@@ -30,13 +30,12 @@ $stmt->execute();
 // Fetch all the results as an associative array
 $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-// Check if we have data
+// Return an empty array if no data is found
 if (!$results) {
-    echo json_encode(["error" => "No data found for the provided student number."]);
-    exit;
+    echo json_encode([]);
+} else {
+    // Return the results in JSON format
+    echo json_encode($results);
 }
-
-// Return the results in JSON format
-echo json_encode($results);
 
 ?>

@@ -85,40 +85,40 @@ function Home() {
 
   const notis = [
     {
-      "tid": "RUB201204006",
-      "mid": "CTE306",
-      "date": "2023-11-15 20:59:37",
-      "semester": "AS2023",
-      "name": "Mobile Application Development"
+      tid: "RUB201204006",
+      mid: "CTE306",
+      date: "2023-11-15 20:59:37",
+      semester: "AS2023",
+      name: "Mobile Application Development",
     },
     {
-      "tid": "RUB200604001",
-      "mid": "DIS302",
-      "date": "2023-11-09 00:00:00",
-      "semester": "AS2023",
-      "name": "Object Oriented Analysis & Design"
+      tid: "RUB200604001",
+      mid: "DIS302",
+      date: "2023-11-09 00:00:00",
+      semester: "AS2023",
+      name: "Object Oriented Analysis & Design",
     },
     {
-      "tid": "RUB200704052",
-      "mid": "CTE305",
-      "date": "2023-11-09 00:00:00",
-      "semester": "AS2023",
-      "name": "Software Engineering"
+      tid: "RUB200704052",
+      mid: "CTE305",
+      date: "2023-11-09 00:00:00",
+      semester: "AS2023",
+      name: "Software Engineering",
     },
     {
-      "tid": "RUB201204008",
-      "mid": "CTE308",
-      "date": "2023-11-09 00:00:00",
-      "semester": "AS2023",
-      "name": "Advanced Web Technology"
+      tid: "RUB201204008",
+      mid: "CTE308",
+      date: "2023-11-09 00:00:00",
+      semester: "AS2023",
+      name: "Advanced Web Technology",
     },
     {
-      "tid": "RUB201404011",
-      "mid": "CTE307",
-      "date": "2023-11-09 00:00:00",
-      "semester": "AS2023",
-      "name": "Human Computer Interaction"
-    }
+      tid: "RUB201404011",
+      mid: "CTE307",
+      date: "2023-11-09 00:00:00",
+      semester: "AS2023",
+      name: "Human Computer Interaction",
+    },
   ];
 
   const [isConfirmDialogOpen, setIsConfirmDialogOpen] = useState(false);
@@ -157,7 +157,7 @@ function Home() {
       const semester = "AS2023";
       const status = "1";
 
-      const url = `https://resultsystemdb.000webhostapp.com/examcell/declare.php?semester=${semester}&date=${date}&status=${status}`;
+      const url = `http://localhost:8080/Result-processing-system/Backend/api/RDeclaration.php`;
 
       // Move the fetch logic outside of useEffect
       const response = await fetch(url);
@@ -212,9 +212,8 @@ function Home() {
           </div>
         </div>
       </div>
-      
+
       <div className="charts">
-        
         <ResponsiveContainer width="100%" height="100%">
           <BarChart
             width={500}
