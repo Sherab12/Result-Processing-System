@@ -21,65 +21,44 @@ import {
 import "./Home.css";
 import { NavLink } from "react-router-dom";
 import PopupDialog from "../../../Components/PopupDialog";
+import Calendar from "./Calendar";
 
 function Home() {
   const data = [
     {
-      name: "BEIT",
-      First: 2,
-      Second: 2,
-      amt: 6,
-      Third: 3, // Additional bar value for BEIT
-      Fourth: 5, // Additional bar value for BEIT
+      name: "BA",
+      pass: 29,
+      fail: 0,
     },
     {
-      name: "CE",
-      First: 2,
-      Second: 5,
-      amt: 6,
-      Third: 4, // Additional bar value for CE
-      Fourth: 3, // Additional bar value for CE
+      name: "BC",
+      pass: 40,
+      fail: 7,
     },
-    // Add more objects for other programs similarly
+    {
+      name: "BEIT",
+      pass: 40,
+      fail: 0,
+    },
     {
       name: "EE",
-      First: 3,
-      Second: 3,
-      amt: 6,
-      Third: 3,
-      Fourth: 3,
-    },
-    {
-      name: "BA",
-      First: 3,
-      Second: 3,
-      amt: 6,
-      Third: 3,
-      Fourth: 3,
-    },
-    {
-      name: "Geo",
-      First: 3,
-      Second: 3,
-      amt: 6,
-      Third: 3,
-      Fourth: 3,
+      pass: 40,
+      fail: 5,
     },
     {
       name: "ICE",
-      First: 3,
-      Second: 3,
-      amt: 6,
-      Third: 3,
-      Fourth: 3,
+      pass: 20,
+      fail: 1,
+    },
+    {
+      name: "EG",
+      pass: 30,
+      fail: 0,
     },
     {
       name: "ECE",
-      First: 3,
-      Second: 3,
-      amt: 6,
-      Third: 3,
-      Fourth: 3,
+      pass: 30,
+      fail: 0,
     },
   ];
 
@@ -176,20 +155,13 @@ function Home() {
         <h3 className="text-black">Dashboard</h3>
       </div> */}
 
-      <div className="md:grid md:grid-cols-4 md:gap-10 my-15 h-28 grid-cols-1 gap-5 mt-10">
-        <div className="bg-blue-500 flex flex-col justify-around py-0 px-4 rounded-md h-full md:my-0 my-10 cursor-pointer">
-          <div className="flex items-center justify-between">
-            <h3 className="font-extrabold">RESULT</h3>
-            <BsFillArchiveFill className="text-2xl" />
-          </div>
-          <h1 className="text-3xl font-extrabold">AS2023</h1>
-        </div>
+      <div className="md:grid md:grid-cols-5 md:gap-10 my-15 h-28 grid-cols-1 gap-5 mt-10">
         <div className="bg-orange-500 flex flex-col justify-around  py-0 px-4 rounded-md h-full md:my-0 my-10 cursor-pointer">
           <div className="flex items-center justify-between">
-            <h3 className="font-extrabold">Result</h3>
+            <h3 className="font-extrabold">Student</h3>
             <BsFillGrid3X3GapFill className="text-2xl" />
           </div>
-          <h1 className="text-3xl font-extrabold">Past Result</h1>
+          <h1 className="text-3xl font-extrabold">1100</h1>
         </div>
         <NavLink to={"/StaffInfo"}>
           <div className="bg-green-500 flex flex-col justify-around py-0 px-4 rounded-md h-full md:my-0 my-10 cursor-pointer">
@@ -201,7 +173,6 @@ function Home() {
             <h1 className="text-3xl font-extrabold">78</h1>
           </div>
         </NavLink>
-
         <div
           className="bg-red-500 flex flex-col justify-around py-2 px-4 rounded-md h-full md:my-0 my-10 mb-10 cursor-pointer"
           onClick={Declare}
@@ -211,16 +182,19 @@ function Home() {
             <BsFillBellFill className="text-2xl" />
           </div>
         </div>
+        <div className="rounded-lg bg-gray-100 p-4 h-28">
+          <Calendar />
+        </div>
       </div>
 
-      <div className="charts">
+      <div className="charts flex flex-col border w-[700px]">
         <ResponsiveContainer width="100%" height="100%">
           <BarChart
             width={500}
             height={300}
             data={data}
             margin={{
-              top: 5,
+              top: 20,
               right: 30,
               left: 20,
               bottom: 5,
@@ -231,10 +205,8 @@ function Home() {
             <YAxis />
             <Tooltip />
             <Legend />
-            <Bar dataKey="First" fill="#363062" />
-            <Bar dataKey="Second" fill="#9BBEC8" />
-            <Bar dataKey="Third" fill="#427D9D" />
-            <Bar dataKey="Fourth" fill="#164863" />
+            <Bar dataKey="pass" stackId="a" fill="#82ca9d" />
+            <Bar dataKey="fail" stackId="a" fill="#e74242" />
           </BarChart>
         </ResponsiveContainer>
 
