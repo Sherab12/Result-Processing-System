@@ -181,7 +181,7 @@ function ModuleResult({ moduleC, year, department }) {
               sheet="moduleC"
               currentTableRef={tableRef.current}
             >
-              <button className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded mt-4">
+              <button className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded mt-4 ml-4">
                 Export Excel
               </button>
             </DownloadTableExcel>
