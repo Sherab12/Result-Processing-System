@@ -20,7 +20,8 @@ const StaffInfo = ({ department, year, semester }) => {
     useStateContext();
 
   const [data, setData] = useState([]);
-  const apiUrl = "https://resultsystemdb.000webhostapp.com/staffInfo.php";
+  const apiUrl =
+    "http://localhost:8080/Result-processing-system/Backend/api/staffInfo.php";
 
   useEffect(() => {
     const fetchData = async () => {
