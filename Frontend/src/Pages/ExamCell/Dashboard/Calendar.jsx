@@ -21,7 +21,7 @@ const Calendar = () => {
     <div className="">
       <ScheduleComponent
         height={"400px"}
-        width={"500px"}
+        width={"430px"}
         eventSettings={{ dataSource: scheduleData }}
         selectedDate={new Date(2024, 11, 1)}
         currentView={window.innerWidth < 768 ? "Day" : "Month"}

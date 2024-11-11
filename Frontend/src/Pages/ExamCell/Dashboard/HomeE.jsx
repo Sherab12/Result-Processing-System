@@ -187,7 +187,7 @@ function Home() {
         </div>
       </div>
 
-      <div className="charts flex flex-col border w-[700px]">
+      <div className="charts flex flex-col border w-[610px]">
         <ResponsiveContainer width="100%" height="100%">
           <BarChart
             width={500}
