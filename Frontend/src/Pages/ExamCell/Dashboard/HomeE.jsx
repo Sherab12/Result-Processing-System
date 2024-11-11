@@ -182,7 +182,7 @@ function Home() {
             <BsFillBellFill className="text-2xl" />
           </div>
         </div>
-        <div className="rounded-lg bg-gray-100 p-4 h-28">
+        <div className="rounded-lg p-0 w-0 h-28">
           <Calendar />
         </div>
       </div>

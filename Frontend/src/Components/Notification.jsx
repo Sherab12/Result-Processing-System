@@ -11,39 +11,39 @@ const Notification = () => {
   const [data, setData] = useState([]);
   const user = useSelector(selectUser);
 
-  useEffect(() => {
-    if (user.role === "tutor") {
-      fetch(
-        `https://resultsystemdb.000webhostapp.com/getTeacherReminder.php?tid=${user.uid}`
-      )
-        .then((response) => response.json())
-        .then((notif) => {
-          setData(
-            notif.map((item) => ({
-              ...item,
-              message: `Marksheet for ${item.code} Pending. Submit before ${item.date}`,
-            }))
-          );
-        })
-        .catch((error) => {
-          console.error("Error:", error);
-        });
-    } else if (user.role === "examcell") {
-      fetch("https://resultsystemdb.000webhostapp.com/notiData.php")
-        .then((response) => response.json())
-        .then((notif) => {
-          setData(
-            notif.map((item) => ({
-              ...item,
-              message: `Marks entered for ${item.mid} on ${item.date}`,
-            }))
-          );
-        })
-        .catch((error) => {
-          console.error("Error:", error);
-        });
-    }
-  }, [user.role, user.uid]);
+  // useEffect(() => {
+  //   if (user.role === "tutor") {
+  //     fetch(
+  //       `https://resultsystemdb.000webhostapp.com/getTeacherReminder.php?tid=${user.uid}`
+  //     )
+  //       .then((response) => response.json())
+  //       .then((notif) => {
+  //         setData(
+  //           notif.map((item) => ({
+  //             ...item,
+  //             message: `Marksheet for ${item.code} Pending. Submit before ${item.date}`,
+  //           }))
+  //         );
+  //       })
+  //       .catch((error) => {
+  //         console.error("Error:", error);
+  //       });
+  //   } else if (user.role === "examcell") {
+  //     fetch("https://resultsystemdb.000webhostapp.com/notiData.php")
+  //       .then((response) => response.json())
+  //       .then((notif) => {
+  //         setData(
+  //           notif.map((item) => ({
+  //             ...item,
+  //             message: `Marks entered for ${item.mid} on ${item.date}`,
+  //           }))
+  //         );
+  //       })
+  //       .catch((error) => {
+  //         console.error("Error:", error);
+  //       });
+  //   }
+  // }, [user.role, user.uid]);
 
   return (
     <div className="nav-item absolute right-5 md:right-40 top-16 bg-white dark:bg-[#42464D] p-8 rounded-lg w-96">
@@ -81,7 +81,10 @@ const Notification = () => {
               </div>
             ))
           : user.role == "tutor" && (
-              <div className="mt-5 text-blue-500">Empty</div>
+              <div className="mt-5 border-2 border-blue-500 rounded-lg p-2 flex justify-between items-center">
+                <p className="text-sm text-blue-500">Send Mark for DIS404</p>
+                <p className="text-sm text-blue-500">12/11/2024</p>
+              </div>
             )}
 
         {user.role == "examcell" && data.length > 0
@@ -98,7 +101,11 @@ const Notification = () => {
               </div>
             ))
           : user.role == "examcell" && (
-              <div className="mt-5 text-blue-500">Empty</div>
+              <div className="mt-5 border-2 border-blue-500 rounded-lg p-2">
+                <p className="text-sm text-blue-500">DIS404</p>
+                <p className="text-sm text-blue-500">Kezang Dema</p>
+                <p className="text-sm text-blue-500">submitted on 12/11/2024</p>
+              </div>
             )}
       </div>
     </div>
